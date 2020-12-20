@@ -4,19 +4,18 @@ namespace App\Notifications;
 
 use App\Models\Ticket;
 use App\Models\User;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 
-class AddNewticket extends Notification
+class AddNewticket1 extends Notification
 {
 
     use Queueable;
 protected $ticket;
-protected $user;
-
     /**
      * Create a new notification instance.
      *
@@ -25,7 +24,6 @@ protected $user;
     public function __construct(Ticket $ticket )
     {
         $this->ticket=$ticket;
-       
     }
 
     /**
@@ -36,7 +34,7 @@ protected $user;
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail'];
     }
 
     /**
@@ -51,21 +49,18 @@ protected $user;
        $url = url('/tickets/'.$this->ticket->id);
 
         return (new MailMessage)
-                    ->subject('New Ticket')
-                    ->greeting('Hello!'.$notifiable->name)                   
-                    ->line(' هناك تذكره جديده برقم  !'.$this->ticket->id.'    '.$this->ticket->subject )
-                    ->action('View Tickit' , $url)
-                    ->line('يرجي متابعة الطلب  وشكرا!')
-                    ->greeting('اداره الموقع !')  ;
+                  ->subject('New Ticket')
+                    ->greeting('مرحباا!'.$this->ticket->name)                   
+                    ->line(' تم اضافه التذكرةرقم ..!'.$this->ticket->id .'    '.$this->ticket->subject )
+                    ->action('عرض التذكره' , $url)
+                    ->line('شكرا لك علي استخدام موقعنا !');
     }
-    public function toDatabase($notifiable)
-    {  $url = url('/tickets/'.$this->ticket->id);
-        return [
-            'title'  =>'New Ticket',
-            'body'   =>' هناك تذكره جديده برقم  !'.$this->ticket->id,
-           'action'  =>'View Tickit' , $url,
-        ];
-    }
+    // public function toDatabase($notifiable)
+    // {
+    //     return [
+    //         //
+    //     ];
+    // }
 
     /**
      * Get the array representation of the notification.

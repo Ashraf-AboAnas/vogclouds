@@ -7,7 +7,10 @@ use App\Models\Services;
 use App\Models\Ticket;
 use App\Models\FilesUpload;
 use App\Http\Requests\TicketRequest;
+use App\Models\User;
 use App\Notifications\AddNewticket;
+use App\Notifications\AddNewticket1;
+
 use Illuminate\Support\Str;
 use Redirect;
 use DB;
@@ -20,7 +23,7 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   
+
     public function index()
     {
         $services=Services::where('id','<>',5)->get();
@@ -76,10 +79,14 @@ class TicketController extends Controller
                          $data=array('ticket_id'=> $id,'filename'=>$filename);
                          DB::table('files_uploads')->insert($data);
                         }}
-
+                        
+                       $user=User::whereIn('role',['admin'])->get();
                         $email1= $ticket->email;
                         Notification::route('mail', $email1)
-                        ->notify(new AddNewticket($ticket));
+                        ->notify(new AddNewticket1($ticket));
+                        if($user){
+                                  Notification::send($user, new AddNewticket($ticket));
+                                 }
         return redirect()->route('ticket')->with(['success' => 'تم اضافة تذكره رقم'.$ticket->id .' بنجاج وسيتم  التعامل معك والرد في القريب العاجل ' ]);
 
 

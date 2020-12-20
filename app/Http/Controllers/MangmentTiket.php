@@ -10,9 +10,9 @@ class MangmentTiket extends Controller
     public function index()
     {
 
-        $ticket = Ticket::orderBy('id', 'DESC')->paginate(15);
+        $ticket = Ticket::whereIn('status',['open'])->orderBy('id', 'DESC')->paginate(15);
 
         return view('ticket.index',compact('ticket'));
     }
-  
+
 }
