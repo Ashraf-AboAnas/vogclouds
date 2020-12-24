@@ -25,7 +25,7 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">التذاكر</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                      التذاكر الجديدة
+                    تذاكر قيد المتابعة
                 </span>
             </div>
         </div>
@@ -84,40 +84,21 @@
                                         <td>{{ $ticket->id }}</td>
                                          <td>{{ $ticket->email }}</td>
                                          <td>{{ $ticket->subject }}</td>
-                                         <td>  <a class="modal-effect  " data-effect="effect-scale"
-                                            data-id="{{ $ticket->id }}" data-email="{{$ticket->email }}"
-                                            data-description="{{ $ticket->message }}"data-subject="{{  $ticket->subject }}"
-                                                data-toggle="modal" href="#show_details">
-                                                <p style="color:blue;">{{ $ticket->status }} <i class="fas fa-eye" title="اضغط هنا لعرض الرساله "
-                                                    ></i></p></a></td>
-
-
-
+                                        <td>{{ $ticket->status }}</td>
                                         <td>{{ $ticket->created_at}}</td>
 
                                         <td>
-                                            <div class="d-flex">
-
-                                            <a class="btn btn-outline-success btn-sm" href="{{route('addreplytoticket',$ticket->id)}}">
-                                                ردعلي التذكرة </a>
 
                                                 <button class="btn btn-outline-success btn-sm"
-                                                onclick="event.preventDefault();
-                                                document.getElementById('form-complete-{{$ticket->id}}').submit()"
-                                                    data-target="#edit_Product">استلام التذكره</button>
+
+                                                    data-target="#edit_Product">مراسله الزبون</button>
 
 
 
-
-                                                    <form style="display:none"  id="{{'form-complete-'.$ticket->id}}" method="post"
-                                                       action ="{{route('tiket.suspended',$ticket->id)}}">
-
-                                                         @csrf
-                                                         @method('put')
-                                                   </form>
+                                                <button class="btn btn-outline-danger btn-sm " data-toggle="modal"
+                                                    data-target="#deletemodel">اغلاق التذكره</button>
 
 
-                                                </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -183,36 +164,6 @@
     <!-- Container closed -->
     </div>
     <!-- main-content closed -->
-
-    <div class="modal" id="show_details">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title"> عرض التفاصيل</h6><button aria-label="Close" class="close" data-dismiss="modal"
-                        type="button"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <label for="des">  الاميل:    </label>
-
-                        <input type="hidden" name="id" id="id_poup" value="">
-                        <input class="form-control" name="ticket_email" id="ticket_email_poup" type="text" readonly>
-                        <label for="des">  الموضوع:   </label>
-                        <input class="form-control" name="ticket_subject" id="ticket_subject_poup" type="text" readonly>
-                        <br>
-                        <label for="des"> بيانات التذكرة:   </label>
-                        <textarea name="ticket_massege" cols="20" rows="5" id='ticket_massege_poup'
-                            class="form-control"></textarea>
-                        </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">خروج</button>
-                    </div>
-
-                </div>
-            </div>
-        </div></div>
-        <!-- End Basic modal -->
-
-
 @endsection
 @section('js')
     <!-- Internal Data tables -->
@@ -243,20 +194,7 @@
     <!-- Internal Modal js-->
     <script src="{{ URL::asset('assets/js/modal.js') }}"></script>
 
-    <script>
-        $('#show_details').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget)
-            var email = button.data('email')
-            var massage = button.data('description')
-            var subject = button.data('subject')
-           // var description = button.data('description')
-            var modal = $(this)
-            modal.find('.modal-body #ticket_email_poup').val(email);
-            modal.find('.modal-body #ticket_massege_poup').val(massage);
-          modal.find('.modal-body #ticket_subject_poup').val(subject);
-           // modal.find('.modal-body #pro_id').val(pro_id);
-        })
-</script>
+
 
 
 

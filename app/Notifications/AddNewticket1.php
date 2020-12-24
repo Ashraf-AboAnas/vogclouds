@@ -50,8 +50,8 @@ protected $ticket;
 
         return (new MailMessage)
                   ->subject('New Ticket')
-                    ->greeting('مرحباا!'.$this->ticket->name)                   
-                    ->line(' تم اضافه التذكرةرقم ..!'.$this->ticket->id .'    '.$this->ticket->subject )
+                    ->greeting('مرحباا!'.$this->ticket->name)
+                    ->line(' تم اضافه التذكرةرقم ..!'.$this->ticket->id .'   وكود رقم  '.$this->ticket->ticket_id  )
                     ->action('عرض التذكره' , $url)
                     ->line('شكرا لك علي استخدام موقعنا !');
     }

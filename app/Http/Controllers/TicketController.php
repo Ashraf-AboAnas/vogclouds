@@ -59,7 +59,7 @@ class TicketController extends Controller
         $ticket->message = $request->message;
         $ticket->phone = $request->phone;
         $ticket->ticket_id = Str::random(12);
-        $ticket->status =  "Open";
+        $ticket->status =  "New";
         $ticket->advance_budget = $request->advance_budget;
         $ticket->save();
          if ($request->hasFile('filesname'))
@@ -79,7 +79,7 @@ class TicketController extends Controller
                          $data=array('ticket_id'=> $id,'filename'=>$filename);
                          DB::table('files_uploads')->insert($data);
                         }}
-                        
+
                        $user=User::whereIn('role',['admin'])->get();
                         $email1= $ticket->email;
                         Notification::route('mail', $email1)

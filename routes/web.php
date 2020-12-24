@@ -55,7 +55,7 @@ Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
  // return 'ddfxg';
 })->name('dashboard');
 
-Route::get('/mangmenttiket', [App\Http\Controllers\MangmentTiket::class, 'index'])->middleware('is_admin')->name('mangmenttiket');
+
 
 /*Route::get('/contact', [ContactUsFormController::class, 'createForm']);*/
 
@@ -66,5 +66,25 @@ Route::get('logout', 'Auth\LoginController@logout', function () {
 });
 
 
+/***************** Ticket In Dshboard ********************** */
+Route::prefix('ticket')->middleware(['is_admin','auth'])->group(function () {
 
+    Route::get('/New', [App\Http\Controllers\MangmentTiket::class, 'NewTicket'])->name('NewTicket');
+    Route::get('/Suspended', [App\Http\Controllers\MangmentTiket::class, 'SuspendedTicket'])->name('SuspendedTicket');
+    Route::put('/{tiket}', [App\Http\Controllers\MangmentTiket::class,'tosuspended'])->name('tiket.suspended');
+
+    Route::get('/addreplytoticket/{id}', [App\Http\Controllers\MangmentTiket::class, 'addreplytoticket'])->name('addreplytoticket');
+});
+/*********************Ivoice in Dashboard************************* */
+Route::prefix('invoice')->middleware(['is_admin','auth'])->group(function () {
+
+    Route::get('/New', [App\Http\Controllers\MangmentInvoice::class, 'Newinvoice'])->name('Newinvoice');
+
+});
+/************************************************** */
+/************************************************** */
+/************************************************** */
+/************************************************** */
+/************************************************** */
+/************************************************** */
 Route::get('/{page}', [App\Http\Controllers\admin\AdminController::class, 'index2']);
