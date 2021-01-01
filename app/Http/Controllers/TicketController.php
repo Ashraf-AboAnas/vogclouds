@@ -7,10 +7,12 @@ use App\Models\Services;
 use App\Models\Ticket;
 use App\Models\FilesUpload;
 use App\Http\Requests\TicketRequest;
+use App\Http\Requests\TicketRequestReply;
+use App\Models\comment;
 use App\Models\User;
 use App\Notifications\AddNewticket;
 use App\Notifications\AddNewticket1;
-
+use App\Notifications\NewNotificationReplay;
 use Illuminate\Support\Str;
 use Redirect;
 use DB;
@@ -51,6 +53,31 @@ class TicketController extends Controller
     //public function store(TicketRequest $request)
     public function store(TicketRequest $request)
   {
+
+
+    // for (User user : users) {
+    //     if (user.email().equals($request->email)) {
+    //         return user;
+    //     }
+    // }
+    // return null;
+
+    if(  $tickete=User::whereIn('email',[$request->email])->first()){
+        $aa=  $tickete->email;
+    }
+    else{
+        $aa=  null;
+
+    }
+
+
+      if ($aa){
+        return redirect()->route('ticket')->with(['alert.error' => 'اسم المستخدم '.$request->email .' بالفعل مسجل في موقعنا  يمكنك الدخول الي حسابك وطلب تذكره  اهلا وسهلا بك  في موقعنا  ' ]);
+
+
+     }
+      elseif($aa ==''){
+
     $ticket= new Ticket();
         $ticket->name = $request->name;
         $ticket->services_id = $request->services_id;
@@ -80,10 +107,11 @@ class TicketController extends Controller
                          DB::table('files_uploads')->insert($data);
                         }}
 
-                       $user=User::whereIn('role',['admin'])->get();
+
                         $email1= $ticket->email;
                         Notification::route('mail', $email1)
                         ->notify(new AddNewticket1($ticket));
+                        $user=User::whereIn('role',['admin'])->get();
                         if($user){
                                   Notification::send($user, new AddNewticket($ticket));
                                  }
@@ -93,7 +121,7 @@ class TicketController extends Controller
 }
 
 
-
+}
 
 
     /**
@@ -103,8 +131,14 @@ class TicketController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
+        $ticket =$id;
+       $comment = comment::where('ticket_id' , $id)
+                          ->where('isadmin', true)
+                        //  ->where('status', 'New')
+                          ->get();
 
-        return back();
+
+       return view('websites.viewticket', compact(['comment','ticket']));
     }
 
     /**
@@ -140,4 +174,35 @@ class TicketController extends Controller
     {
         //
     }
+
+
+    public function createreplayuser(TicketRequestReply $request)
+    {
+//return $request;
+// $request->validation([
+// 'replaytecket' => 'required|string|max:255|min:8'
+
+// ]);
+
+
+
+
+        $teckit_id = $request->post('aaa');
+        $comment = comment::create([
+            'replaytecket' => $request->post('adminreplay'),
+            'ticket_id' => $teckit_id,
+        ]);
+        $teckit=Ticket::find($teckit_id);
+        $user=User::whereIn('role',['admin'])->get();
+        if($user){
+                  Notification::send($user, new NewNotificationReplay($teckit));
+                 }
+        return redirect()
+            ->back()
+            ->with('success', "تم  اضافة ردك علي  التذكره رقم\"{$teckit_id}\" : بنجاح   ");
+
+    }
+
+
+
 }

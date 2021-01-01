@@ -170,7 +170,7 @@
 									<div class="main-notification-list Notification-scroll  ">
                                         @foreach (Auth::user()->Notifications as $notification)
 
-										 <a class="d-flex p-3 border-bottom" href="#">
+										 <a class="d-flex p-3 border-bottom" href= "{{$notification->data['action']}}">
 											<div class="notifyimg">
                                                 {{-- bg-pink <i class="la la-file-alt text-white"></i>
                                                 {{$notification->read_at==null?'unread':'' }} --}}
@@ -217,7 +217,7 @@
 									<a class="dropdown-item" href=""><i class="bx bx-cog"></i> Edit Profile</a>
 									<a class="dropdown-item" href=""><i class="bx bxs-inbox"></i>Inbox</a>
 									<a class="dropdown-item" href=""><i class="bx bx-envelope"></i>Messages</a>
-									<a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i> Account Settings</a>
+									<a class="dropdown-item" href="{{ route('show.profile' ) }}"><i class="bx bx-slider-alt"></i> تعديل الملف الشحصي</a>
 									<a class="dropdown-item" href="{{ route('logout' ) }}"><i class="bx bx-log-out"></i>  تسجيل خروج</a>
 								</div>
 							</div>

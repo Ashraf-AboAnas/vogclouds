@@ -10,13 +10,12 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 
-class AddNewticket extends Notification
+class SendPassword extends Notification
 {
 
     use Queueable;
 protected $ticket;
-protected $user;
-
+protected $password;
     /**
      * Create a new notification instance.
      *
@@ -25,6 +24,8 @@ protected $user;
     public function __construct(Ticket $ticket )
     {
         $this->ticket=$ticket;
+       // $this->password=$password;
+
 
     }
 
@@ -36,7 +37,7 @@ protected $user;
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail'];
     }
 
     /**
@@ -48,23 +49,17 @@ protected $user;
 
     public function toMail($notifiable)
     {
-       $url = url('/findteckit/'.$this->ticket->id);
+      // $url = url('/findteckit/'.$this->ticket->id);
 
         return (new MailMessage)
-                    ->subject('New Ticket')
-                    ->greeting('Hello!'.$notifiable->name)
-                    ->line(' هناك تذكره جديده برقم  !'.$this->ticket->id.'    '.$this->ticket->subject )
-                    ->action('View Tickit' , $url)
-                    ->line('يرجي متابعة الطلب  وشكرا!')
+                    ->subject('متابعة التذكرة')
+                    ->greeting('مرحبا تم ارسال بيانات الدخول للموقع!')
+                   // ->line(' يمكنك الدخول الي الموقع لمتابعة التذكره  !'.$this->ticket->id)
+                    ->line('اسم المستخدم '.$this->ticket->email)
+                    ->line('كلمة المرور '.$this->ticket->password)
+                   // ->action('View Tickit' , $url)
+                  //  ->line('يرجي متابعة الطلب  وشكرا!')
                     ->greeting('اداره الموقع !')  ;
-    }
-    public function toDatabase($notifiable)
-    {  $url = url('/ticket/New');//.$this->ticket->id
-        return [
-            'title'  =>'تذكره جديدة',
-            'body'   =>'  رقم'.$this->ticket->id,
-           'action'  => $url,
-        ];
     }
 
     /**

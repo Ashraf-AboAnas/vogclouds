@@ -37,6 +37,10 @@
             </div>
         </div>
     </div>
+    @include('alerts.errors')
+
+
+    @include('alerts.success')
 
 
     <!-- breadcrumb -->
@@ -45,38 +49,98 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="card mg-b-20">
+            <div class="d-flex">
+               <div class="mb-3 mr-3 mt-2">
 
-           <div class="mb-3 mr-3 mt-2">
-             <h5>الموضوع: </h5>
-               {{-- <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" --}}
-                 <h6> {{old('email',$ticket->subject)}}</h6>
+               <h5 >الموضوع: </h5>
+               {{-- <input type="email" class="form-control" id="exampleFormControlInput1"value="{{$ticket->id}} "> --}}
+                 <h6> {{($ticket->subject)}}</h6>
                   {{-- "> --}}
             </div>
-           <div class="mb-3 mr-3">
-              <h5>الحالة: <h5>
-                <h6> {{old('email',$ticket->status)}}</h6>
+             {{-- <div class=" ml-8mb-3 mr-3 mt-2 ">
+                 <h5>الحالة: </h5>
+                  <h6> {{$ticket->status}}</h6>
+              </div> --}}
+        </div>
+        <div class="mb-3 mr-3">
+            <h5>الحالة: </h5>
+              <h6> {{$ticket->status}}</h6>
+          </div>
+       {{-- {{route('createreplay',[$ticket->id])}} --}}
+       <div class="mb-3 mr-3">
+         <h3> عرض الردود السابقه </h3>
+         @if(($comment ==null))
+
+          @else
+         @foreach ($comment as $comment)
+
+{{-- /************************
+
+@foreach ($comment as $comment)
+
+<div class="form-group">
+    <label for="exampleFormControlTextarea1" class="form-label"> "since" {{$comment->created_at->diffForHumans()}} </label>
+    <textarea  name="adminreplay"class="form-control  @error('adminreplay') is-invalid @enderror" id="adminreplay" > {{$comment->replaytecket}}</textarea>
+    @error('adminreplay')
+      <p class="text-danger">{{ $message }}</p>
+    @enderror
+</div>
+
+
+
+
+           @endforeach
+
+/********************* --}}
+             <label for="exampleFormControlTextarea1" class="form-label"> "since" {{$comment->created_at->diffForHumans()}} </label>
+            <textarea  name ="adminreplay" class="form-control" @error('adminreplay') is-invalid @enderror  id="exampleFormControlTextarea1" rows="6" readonly>
+
+            @if($comment->replaytecket)
+            {{$comment->replaytecket}}
+
+             @else
+             <h3 style="color: red"> No Comment in THis Moments<h3>
+             @endif
+           </textarea>
+
+
+           @endforeach
+           @endif
+
+        </div>
+    <div class="mb-3 mr-3">
+        <h3> اضافة رد جديد </h3>
+
+          <form action="{{route('createreplay')}}"method="post" >
+
+            @csrf
+
+            <input type="hidden" name="aaa" class="form-control" value="{{$ticket->id}} ">
+             <div class="mb-3 mr-1 ml-1">
+              {{-- <label for="exampleFormControlTextarea1" class="form-label"><h5>نص الرسالة : </h5></label> --}}
+              <h5>نص الرسالة :</h5>
             </div>
 
-    {{-- {{route('posts.update',[$posts->id])}} --}}
-  <form action="{{route('NewTicket')}}"method="post" >
-       @method('put')
-        @csrf
-    <div class="mb-3 mr-3">
-        <label for="exampleFormControlTextarea1" class="form-label">نص الرسالة : </label>
-        <textarea  name ="adminreplay" class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>
-    </div>
+            <div class="form-group">
+              <textarea  name ="adminreplay" class="form-control"  @error('adminreplay') is-invalid @enderror  id="exampleFormControlTextarea1" rows="6"></textarea>
+              @error('adminreplay')
+              <p class="text-danger">{{ $message }}</p>
+              @enderror
+           </div>
 
- <div class="footer_float">
-    <button type="submit"  class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale"
+ <div class="footer_float ml-1">
+    <button type="submit"  class=" btn btn-outline-primary btn-block" data-effect="effect-scale"
     >اضافة رد</button>
 
-    {{-- <button type="submit" class="btn btn-primary">اضافة رد</button> --}}
-    <a href="{{route('NewTicket')}}" class="modal-effect btn btn-outline-secondary btn-block" data-effect="effect-scale">Cancle</a>
+    {{-- <button type="submit" class=" btn btn-outline-primary ">اضافة رد</button> --}}
+    <a href="{{route('NewTicket')}}" class=" btn btn-outline-secondary btn-block" data-effect="effect-scale" >Cancle</a>
 </div>
 </form>
+    </div>
  </div>
        </div>
              </div>
+            </div>
 @endsection
 @section('js')
     <!-- Internal Data tables -->

@@ -42,18 +42,21 @@
       @include('alerts.success')
 
 
+
    {{-- /*******************/ --}}
     <!-- row -->
     <div class="row">
         <div class="col-xl-12">
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
+                      @if(Auth::user()->role =='client')
                     <div class="d-flex justify-content-between">
 
-                            {{-- <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale"
-                                data-toggle="modal" href="#exampleModal">اضافة منتج</a> --}}
+                            <a class=" btn btn-outline-primary btn-block"  href="{{route('clientaddticket')}}">
+                                اضافة تذكره جديده</a>
 
                     </div>
+                    @endif
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -68,9 +71,9 @@
                                     <th class="border-bottom-0">موضوع  التذكره</th>
                                     <th class="border-bottom-0">الحاله</th>
                                     <th class="border-bottom-0">تاريخ التذكره</th>
-
+                                    @if(Auth::user()->role =='admin')
                                     <th class="border-bottom-0">العمليات</th>
-
+                                   @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -93,8 +96,8 @@
 
 
 
-                                        <td>{{ $ticket->created_at}}</td>
-
+                                        <td>{{ $ticket->created_at->todatestring()}}</td>
+                                        @if(Auth::user()->role =='admin')
                                         <td>
                                             <div class="d-flex">
 
@@ -104,13 +107,13 @@
                                                 <button class="btn btn-outline-success btn-sm"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('form-complete-{{$ticket->id}}').submit()"
-                                                    data-target="#edit_Product">استلام التذكره</button>
+                                                   >استلام التذكره</button>
 
 
 
 
                                                     <form style="display:none"  id="{{'form-complete-'.$ticket->id}}" method="post"
-                                                       action ="{{route('tiket.suspended',$ticket->id)}}">
+                                                       action ="{{route('ticket.suspended',$ticket->id)}}">
 
                                                          @csrf
                                                          @method('put')
@@ -119,6 +122,7 @@
 
                                                 </div>
                                         </td>
+                                   @endif
                                     </tr>
                                 @endforeach
                             </tbody>

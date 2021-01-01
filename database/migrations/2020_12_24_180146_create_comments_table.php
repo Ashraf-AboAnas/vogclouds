@@ -15,11 +15,16 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('teckit_id');
+            $table->unsignedBigInteger('ticket_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->text('adminreplay')->nullable();
-            $table->text('userreplay')->nullable();
+            $table->text('replaytecket')->nullable();
+         
+            $table->boolean('isadmin')->default(0);
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('ticket_id')->references('id')->on('tickets');
+
             $table->timestamps();
+
         });
     }
 
@@ -30,6 +35,6 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flights');
+        Schema::dropIfExists('comments');
     }
 }

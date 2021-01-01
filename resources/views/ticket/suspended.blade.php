@@ -85,7 +85,7 @@
                                          <td>{{ $ticket->email }}</td>
                                          <td>{{ $ticket->subject }}</td>
                                         <td>{{ $ticket->status }}</td>
-                                        <td>{{ $ticket->created_at}}</td>
+                                        <td>{{ $ticket->created_at->  format('Y-m-d')}}</td>
 
                                         <td>
 
@@ -95,9 +95,16 @@
 
 
 
-                                                <button class="btn btn-outline-danger btn-sm " data-toggle="modal"
-                                                    data-target="#deletemodel">اغلاق التذكره</button>
+                                                <button class="btn btn-outline-danger btn-sm"
+                                                onclick="event.preventDefault();
+                                                document.getElementById('form-to-invoice-{{$ticket->id}}').submit()"
+                                                    > إنشاء فاتورة </button>
+                                                <form style="display:none"  id="{{'form-to-invoice-'.$ticket->id}}" method="post"
+                                                    action ="{{route('ticket.addinvoice',$ticket->id)}}">
 
+                                                      @csrf
+                                                      @method('put')
+                                                </form>
 
                                         </td>
                                     </tr>

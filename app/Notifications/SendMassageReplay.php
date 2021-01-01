@@ -10,7 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 
-class AddNewticket extends Notification
+class SendMassageReplay extends Notification
 {
 
     use Queueable;
@@ -48,24 +48,24 @@ protected $user;
 
     public function toMail($notifiable)
     {
-       $url = url('/findteckit/'.$this->ticket->id);
+       $url = url('/tickets/'.$this->ticket->id);
 
         return (new MailMessage)
-                    ->subject('New Ticket')
-                    ->greeting('Hello!'.$notifiable->name)
-                    ->line(' هناك تذكره جديده برقم  !'.$this->ticket->id.'    '.$this->ticket->subject )
+                    ->subject('تم الرد علي التذكره ')
+                    ->greeting('مرحبا ..اهلابك !')
+                    ->line(' هناك رد جديد من قبل الاداره  !'.$this->ticket->id)
                     ->action('View Tickit' , $url)
-                    ->line('يرجي متابعة الطلب  وشكرا!')
+                    ->line('يرجي الرد من خلال الموقع وليس الاميل بالضغط علي الرابط!')
                     ->greeting('اداره الموقع !')  ;
     }
-    public function toDatabase($notifiable)
-    {  $url = url('/ticket/New');//.$this->ticket->id
-        return [
-            'title'  =>'تذكره جديدة',
-            'body'   =>'  رقم'.$this->ticket->id,
-           'action'  => $url,
-        ];
-    }
+    // public function toDatabase($notifiable)
+    // {  $url = url('/tickets/'.$this->ticket->id);
+    //     return [
+    //         'title'  =>'New Ticket',
+    //         'body'   =>' هناك تذكره جديده برقم  !'.$this->ticket->id,
+    //        'action'  =>'View Tickit' , $url,
+    //     ];
+    // }
 
     /**
      * Get the array representation of the notification.

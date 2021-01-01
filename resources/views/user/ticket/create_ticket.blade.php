@@ -29,7 +29,7 @@
         @endif --}}
 
         @include('alerts.errors')
-
+    
         @include('alerts.success')
 
         <div class="section-title">
