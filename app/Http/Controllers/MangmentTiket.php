@@ -19,7 +19,9 @@ use Illuminate\Support\Str;
 use App\Models\Services;
 use App\Notifications\AddNewticket;
 use App\Notifications\AddNewticket1;
+use App\Notifications\PendingTicket;
 use App\Notifications\SendPassword;
+use Illuminate\Support\Facades\Mail;
 use PharIo\Manifest\Author;
 use Throwable;
 
@@ -48,24 +50,7 @@ class MangmentTiket extends Controller
 
 
     public function tosuspended(Ticket $ticket )
-     {/*
-         $tickets = Ticket::where('user_id','!=','null');
-return $tickets;
-     if ($tickets){
-
-       $ticket->update([
-                         'status' => 'Suspended',
-
-                         'Recivedby'=> Auth::user()->id,
-                         'RecivedDate'=>Carbon::now(),
-                      ]);
-
-                      return redirect()
-                      ->route('NewTicket')
-                      ->with('success', "تم استلام التذكره رقم\"{$ticket->id}\" : بنجاح   ");
-      }
-   // }
-        */
+     {
 
         //  DB::beginTransaction();
         //  try{
@@ -91,10 +76,21 @@ return $tickets;
             'user_id'=>$c_user->id,
 
         ]);
-        return redirect()
-        ->route('NewTicket')
-        ->with('success', "تم استلام التذكره وإشاء مستخدم جديد رقم\"{  $ticket->id}\" : بنجاح   ");
 
+        $ticket=Ticket::find($ticket->id);
+        // $data =[
+        //     'ticket'=>$ticket,
+        //     'password'=>$password
+        // ];
+    //   Mail::to($emails)->send(new MailSend($data));
+     //  Mail::to( $ticket->email)->send(new SendPassword($data[]));
+
+
+            Notification::route('mail', $tex->email)
+            ->notify(new SendPassword($tex,$password));
+            return redirect()
+            ->route('NewTicket')
+            ->with('success', "تم استلام التذكره وإشاء مستخدم جديد رقم\"  $ticket->id \" : بنجاح   ");
     }
     else{
      // return $ticket->user_id;
@@ -104,6 +100,9 @@ return $tickets;
             'RecivedDate'=>Carbon::now()
 
         ]);
+
+        Notification::route('mail', $tex->email)
+        ->notify(new PendingTicket($tex));
         return redirect()
         ->route('NewTicket')
         ->with('success', "تم استلام التذكره رقم\"{  $ticket->id}\" : بنجاح   ");

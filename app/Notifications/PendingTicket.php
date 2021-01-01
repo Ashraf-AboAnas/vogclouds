@@ -10,20 +10,19 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 
-class SendPassword extends Notification
+class PendingTicket extends Notification
 {
 
     use Queueable;
 protected $ticket;
-protected $password;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct( Ticket $ticket ,$password )
+    public function __construct( Ticket $ticket )
     {
-        $this->password=$password;
+
         $this->ticket=$ticket;
 
 
@@ -49,15 +48,15 @@ protected $password;
 
     public function toMail($notifiable)
     {
-       $url = url('login');
+      $url = url('login');
 
         return (new MailMessage)
                     ->subject('متابعة التذكرة')
                     ->greeting('اداره الموقع !')
-                    ->line('يمكنك الدخول واستكمال الاجراءات من الموقع ')
-                    ->line(' اسم المستخدم : '.$this->ticket->email)
-                    ->line('كلمة المرور : '.$this->password)
-                    ->action('للدخول للموقع اضغط هنا' , $url);
+                  //  ->line('يمكنك الدخول واستكمال الاجراءات من الموقع ')
+                    ->line('تم تحويل طلبك والان قيد المتابعه يمكنك الدخول الي حسابك للمتابعة')
+                    // ->line('كلمة المرور : '.$this->password)
+                     ->action('للدخول للموقع اضغط هنا' , $url);
 
 
     }
