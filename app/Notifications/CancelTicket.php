@@ -55,23 +55,5 @@ protected $ticket;
                   //->action('عرض التذكره' , $url)
                     ->line('شكرا لك علي استخدام موقعنا !');
     }
-    // public function toDatabase($notifiable)
-    // {
-    //     return [
-    //         //
-    //     ];
-    // }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
+   
 }

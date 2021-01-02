@@ -88,14 +88,14 @@
                                         <td>{{ $ticket->created_at->  format('Y-m-d')}}</td>
 
                                         <td>
-
+                                            <div class="d-flex">
                                                 <button class="btn btn-outline-success btn-sm"
 
                                                     data-target="#edit_Product">مراسله الزبون</button>
 
 
 
-                                                <button class="btn btn-outline-danger btn-sm"
+                                                <button class="btn btn-outline-info btn-sm"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('form-to-invoice-{{$ticket->id}}').submit()"
                                                     > إنشاء فاتورة </button>
@@ -112,7 +112,7 @@
                                                     action ="{{route('ticket.cancel',$ticket->id)}}">
 
                                                 </form>
-
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -123,53 +123,9 @@
             </div>
         </div>
 
-        <!-- add -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">اضافة منتج</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="" method="post">
-                        {{ csrf_field() }}
-
-                    </form>
-                </div>
-            </div>
-        </div>
 
 
-        <!-- delete -->
-        <div class="modal fade" id="deletemodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">حذف المنتج</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action= '' method="post">
-                        {{ method_field('delete') }}
-                        {{ csrf_field() }}
-                        <div class="modal-body">
-                            <p>هل انت متاكد من عملية الحذف ؟</p><br>
-                            <input type="hidden" name="pro_id" id="pro_id" value="">
-                            <input class="form-control" name="product_name" id="product_name" type="text" readonly>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                            <button type="submit" class="btn btn-danger">تاكيد</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+
 
 
     </div>

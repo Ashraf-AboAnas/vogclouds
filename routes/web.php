@@ -87,11 +87,14 @@ Route::prefix('ticket')->middleware(['is_admin', 'auth'])->group(function () {
 });
 /*********************Ivoice in Dashboard************************* */
 Route::prefix('invoice')->middleware(['is_admin', 'auth'])->group(function () {
+    Route::get('/showinviose', [App\Http\Controllers\MangmentInvoice::class, 'showinviose'])->name('showinviose');
+
     Route::get('/{ticket}', [App\Http\Controllers\MangmentInvoice::class, 'addinvoice'])->name('ticket.addinvoice');
 
     Route::put('update/{ticket}', [App\Http\Controllers\MangmentInvoice::class, 'updateinvoice'])->name('invoice.update');
 
-    Route::get('/New', [App\Http\Controllers\MangmentInvoice::class, 'Newinvoice'])->name('Newinvoice');
+    Route::put('/{id}', [App\Http\Controllers\MangmentInvoice::class, 'ticket_ok'])->name('ticket.ok');
+
 
 });
 /*****************editprofile**************************** */
@@ -106,6 +109,7 @@ Route::prefix('user')->middleware(['is_admin', 'auth'])->group(function () {
     Route::get('/index', [App\Http\Controllers\UserdashboardController::class, 'index'])->name('user.index');
     Route::delete('/{id}/delete', [App\Http\Controllers\UserdashboardController::class, 'destroy'])->name('user.delete');
 });
+
 /************************************************** */
 /************************************************** */
 /************************************************** */

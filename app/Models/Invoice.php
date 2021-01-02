@@ -11,7 +11,10 @@ class Invoice extends Model
     protected $guarded =[];
 
 
-   
+    public function teckit()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
 
 
 }
