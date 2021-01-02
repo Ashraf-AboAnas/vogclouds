@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use App\Models\Services;
 use App\Notifications\AddNewticket;
 use App\Notifications\AddNewticket1;
+use App\Notifications\CancelTicket;
 use App\Notifications\PendingTicket;
 use App\Notifications\SendPassword;
 use Illuminate\Support\Facades\Mail;
@@ -55,6 +56,7 @@ class MangmentTiket extends Controller
         //  DB::beginTransaction();
         //  try{
     // $tickets = Ticket::where('user_id','!=','null');
+
         $tex = Ticket::where('user_id',$ticket->user_id)->first();
 
          if(!$tex->user_id )
@@ -122,6 +124,7 @@ class MangmentTiket extends Controller
     //           ->with('alert.error','لا يمكنك استلام الرساله بسبب   وجود الاميل  مسبقا لمستخدم اخر');
     //           throw $e;
     //      }
+
 
 }
     public function addreplytoticket($id)
@@ -228,6 +231,25 @@ class MangmentTiket extends Controller
                                    Notification::send($user, new AddNewticket($ticket));
                                   }
          return redirect()->route('clientaddticket')->with(['success' => 'تم اضافة تذكره رقم'.$ticket->id .' بنجاج وسيتم  التعامل معك والرد في القريب العاجل ' ]);
+
+
+ }
+
+ public function ticketcancel (Ticket $ticket){
+
+    $ticket->update([
+        'status' => 'Cancel',
+        'Recivedby2'=> Auth::user()->id,
+        'RecivedDate2'=>Carbon::now()
+
+    ]);
+    Notification::route('mail', $ticket->email)
+    ->notify(new CancelTicket($ticket));
+
+
+    return redirect()
+    ->route('SuspendedTicket')
+    ->with('success', "تم إلغاء  التذكرة  رقم     \"  $ticket->id \" : بنجاح   ");
 
 
  }

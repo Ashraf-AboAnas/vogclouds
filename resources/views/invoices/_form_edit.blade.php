@@ -71,53 +71,68 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    {{-- //  action ="{{route('ticket.suspended',$ticket->id)}}"> --}}
+
+
 
                     <div class="col-md-12">
+                        <form action="{{route('invoice.update',$ticket->id)}}" method="post">
+                            @csrf
+                            @method('put')
                         <fieldset class="group-border">
-                            <legend class="group-border">Info</legend>
+                            <legend class="group-border">بيانات الفاتوره </legend>
 
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="form-inline">
-                                        <label class="control-label" for="NumDoc">رقم الفاتوره</label>
-                                        <input class="form-control input-sm" data-val="true" data-val-number="The field Nº Documento must be a number." data-val-required="O campo Nº Documento é necessário." disabled="disabled" id="NumDoc" name="NumDoc" placeholder="Nº Documento" value="21354" type="text">
+                                        <label class="control-label" for="NumDoc">رقم الفاتوره :</label>
+                                        <input class="form-control input-sm"
+                                        disabled="disabled" id="ticket_code" name="ticket_code"
+                                          value="{{$uniquee}}" type="text">
+                                    <input type="hidden"name="ticket_id" value="{{$ticket->id}}">
+                                    <input type="hidden" name="ticket_user" value="{{$ticket->user_id}}">
+                                    <input type="hidden" name="ticket_code" value="{{$uniquee}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-inline">
-                                        <label class="control-label" for="ProcessNum">الاسم </label>
-                                        <input class="form-control input-sm" data-val="true" data-val-number="The field Nº Processo  must be a number." data-val-required="O campo Nº Processo  é necessário." disabled="disabled" id="ProcessNum" name="ProcessNum" placeholder="Nº Processo" value="54463" type="text">
+                                        <label class="control-label" for="ProcessNum">الاسم : </label>
+                                        <input class="form-control input-sm" data-val="true"  disabled="disabled" id="ProcessNum"
+                                        name="ProcessNum"  value="{{$ticket->name}}" type="text">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-inline">
-                                        <label class="control-label" for="State">الموضوع</label>
-                                        <input class="form-control input-sm" disabled="disabled" id="State" name="State" placeholder="Estado" value="Em Inbox" type="text">
+                                        <label class="control-label" for="State">  السعر المتفق عليه :</label>
+                                        <input class="form-control input-sm"  id="price" name="price"
+                                        placeholder="price " value="{{$ticket->advance_budget}}" type="text">
                                     </div>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-lg-1">
-                                    <label class="control-label" for="Name">Nome</label>
+                                    <label class="control-label" for="Name">الموضوع :</label>
                                 </div>
                                 <div class="col-lg-7">
-                                    <input class="form-control input-sm" disabled="disabled" id="Name" name="Name" placeholder="Nome Documento" value="A134-MULTAS" type="text">
+                                    <input class="form-control input-sm" disabled="disabled" id="Name" name="Name"
+                                    placeholder="Nome Documento" value="{{$ticket->subject}}" type="text">
                                 </div>
-                              
+
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-lg-1">
-                                    <label class="control-label" for="Description">Descrição</label>
+                                    <label class="control-label" for="Description">حالة التذكرة: </label>
                                 </div>
-                                <div class="col-lg-7">
-                                    <input class="form-control input-sm" disabled="disabled" id="Description" name="Description" placeholder="Descrição" value="Fast and Furious" type="text">
+                                <div class="col-lg-3">
+                                    <input class="form-control input-sm" disabled="disabled" id="Description" name="Description" placeholder="Descrição" value="not-paid" type="text">
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-inline">
-                                        <label class="control-label" for="Date">Data Documento</label>
-                                        <input class="form-control input-sm" data-val="true" data-val-date="The field Data Documento must be a date." data-val-required="O campo Data Documento é necessário." disabled="disabled" id="Date" name="Date" placeholder="dd/MM/yyyy" value="25/08/2015 15:03:26" type="text">
+                                        <label class="control-label" for="Date">تاريخ الانشاء</label>
+                                        <input class="form-control input-sm" data-val="true"   disabled="disabled"
+                                    id="Date" name="Date"  value="{{$date}}" type="text">
                                     </div>
                                 </div>
 
@@ -128,7 +143,9 @@
                                 <a href="#" class="btn btn-secondary" >الغاء</a>
                        </div>
                         </fieldset>
+                    </form>
                     </div>
+
                </div>
             </div>
         </div>

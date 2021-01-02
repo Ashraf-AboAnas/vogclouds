@@ -82,11 +82,12 @@ Route::prefix('ticket')->middleware(['is_admin', 'auth'])->group(function () {
     Route::get('/add', [App\Http\Controllers\MangmentTiket::class, 'client_create_ticket'])->name('clientaddticket');
     Route::post('/c_create', [App\Http\Controllers\MangmentTiket::class, 'store'])->name('clientsaveticket');
 
+    Route::get('/{ticket}', [App\Http\Controllers\MangmentTiket::class, 'ticketcancel'])->name('ticket.cancel');
 
 });
 /*********************Ivoice in Dashboard************************* */
 Route::prefix('invoice')->middleware(['is_admin', 'auth'])->group(function () {
-    Route::put('/{ticket}', [App\Http\Controllers\MangmentInvoice::class, 'addinvoice'])->name('ticket.addinvoice');
+    Route::get('/{ticket}', [App\Http\Controllers\MangmentInvoice::class, 'addinvoice'])->name('ticket.addinvoice');
 
     Route::put('update/{ticket}', [App\Http\Controllers\MangmentInvoice::class, 'updateinvoice'])->name('invoice.update');
 

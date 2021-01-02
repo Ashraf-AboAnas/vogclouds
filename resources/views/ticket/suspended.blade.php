@@ -99,11 +99,18 @@
                                                 onclick="event.preventDefault();
                                                 document.getElementById('form-to-invoice-{{$ticket->id}}').submit()"
                                                     > إنشاء فاتورة </button>
-                                                <form style="display:none"  id="{{'form-to-invoice-'.$ticket->id}}" method="post"
+                                                <form style="display:none"  id="{{'form-to-invoice-'.$ticket->id}}"
                                                     action ="{{route('ticket.addinvoice',$ticket->id)}}">
 
-                                                      @csrf
-                                                      @method('put')
+                                                </form>
+
+                                                <button class="btn btn-outline-danger btn-sm"
+                                                onclick="event.preventDefault();
+                                                document.getElementById('form-to-cancel-{{$ticket->id}}').submit()"
+                                                    > إلغاء التذاكرة </button>
+                                                <form style="display:none"  id="{{'form-to-cancel-'.$ticket->id}}"
+                                                    action ="{{route('ticket.cancel',$ticket->id)}}">
+
                                                 </form>
 
                                         </td>
