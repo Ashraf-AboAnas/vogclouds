@@ -72,7 +72,7 @@ Route::prefix('ticket')->middleware(['is_admin', 'auth'])->group(function () {
 
     Route::get('/New', [App\Http\Controllers\MangmentTiket::class, 'NewTicket'])->name('NewTicket');
     Route::get('/Suspended', [App\Http\Controllers\MangmentTiket::class, 'SuspendedTicket'])->name('SuspendedTicket');
-    Route::put('/{ticket}', [App\Http\Controllers\MangmentTiket::class, 'tosuspended'])->name('ticket.suspended');
+    Route::put('/{ticket}', [App\Http\Controllers\MangmentTiket::class, 'tosuspended1'])->name('ticket.suspended');
 
     Route::get('/addreplytoticket/{id}', [App\Http\Controllers\MangmentTiket::class, 'addreplytoticket'])->name('addreplytoticket');
 

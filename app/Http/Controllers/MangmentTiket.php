@@ -48,85 +48,67 @@ class MangmentTiket extends Controller
 
         return view('ticket.suspended', compact('ticket'));
     }
-
-
-    public function tosuspended(Ticket $ticket )
-     {
-
+    public function tosuspended1(Ticket $ticket ){
+        $u_email= $ticket->email;
         //  DB::beginTransaction();
         //  try{
-    // $tickets = Ticket::where('user_id','!=','null');
+            if( $uemail= User::where('email',$u_email)->first()){
+                 $user_id =$uemail->id;
+            }
+            else{
+                $user_id= null;
 
-        $tex = Ticket::where('user_id',$ticket->user_id)->first();
+            }
 
-         if(!$tex->user_id )
-          {
-          // return' null user ';
-           $password = Str::random(12);//VTI8FASNZ49A
-          // dd($password);
-          $c_user= User::create([
-          'name' => $ticket->name,
-          'email' => $ticket->email,
-          'role'=>'employe',
-          'password' => Hash::make($password),
-          ]);
+            if ($user_id){
+                $ticket->update([
+                    'status' => 'Suspended',
+                    'Recivedby'=> Auth::user()->id,
+                    'RecivedDate'=>Carbon::now(),
+                    'user_id'=>$user_id,
 
-          $ticket->update([
-            'status' => 'Suspended',
-            'Recivedby'=> Auth::user()->id,
-            'RecivedDate'=>Carbon::now(),
-            'user_id'=>$c_user->id,
-
-        ]);
-
-        $ticket=Ticket::find($ticket->id);
-        // $data =[
-        //     'ticket'=>$ticket,
-        //     'password'=>$password
-        // ];
-    //   Mail::to($emails)->send(new MailSend($data));
-     //  Mail::to( $ticket->email)->send(new SendPassword($data[]));
+                ]);
+                Notification::route('mail', $ticket->email)
+                ->notify(new PendingTicket($ticket));
+                return redirect()
+                ->route('NewTicket')
+                ->with('success', "تم استلام التذكره رقم\"{  $ticket->id}\" : بنجاح   ");
 
 
-            Notification::route('mail', $tex->email)
-            ->notify(new SendPassword($tex,$password));
-            return redirect()
-            ->route('NewTicket')
-            ->with('success', "تم استلام التذكره وإشاء مستخدم جديد رقم\"  $ticket->id \" : بنجاح   ");
+             }
+             elseif($user_id ==''){
+
+
+                $password = Str::random(12);//VTI8FASNZ49A
+                // dd($password);
+                $c_user= User::create([
+                'name' => $ticket->name,
+                'email' => $ticket->email,
+                'role'=>'employe',
+                'password' => Hash::make($password),
+                ]);
+
+                $ticket->update([
+                  'status' => 'Suspended',
+                  'Recivedby'=> Auth::user()->id,
+                  'RecivedDate'=>Carbon::now(),
+                  'user_id'=>$c_user->id,
+
+              ]);
+
+              $ticket=Ticket::find($ticket->id);
+
+              Notification::route('mail', $ticket->email)
+                  ->notify(new SendPassword($ticket,$password));
+                  return redirect()
+                  ->route('NewTicket')
+                  ->with('success', "تم استلام التذكره وإشاء مستخدم جديد رقم\"  $password \" : بنجاح   ");
+             }
+
+
     }
-    else{
-     // return $ticket->user_id;
-            $ticket->update([
-            'status' => 'Suspended',
-            'Recivedby'=> Auth::user()->id,
-            'RecivedDate'=>Carbon::now()
-
-        ]);
-
-        Notification::route('mail', $tex->email)
-        ->notify(new PendingTicket($tex));
-        return redirect()
-        ->route('NewTicket')
-        ->with('success', "تم استلام التذكره رقم\"{  $ticket->id}\" : بنجاح   ");
-
-    }
-    //   $ticket=Ticket::find($ticket->id);
-
-    //     Notification::route('mail', $ticket->email)
-    //     ->notify(new SendPassword($ticket));
-      // DB::commit();
-
-    // }catch(Throwable $e){
-    //     DB::rollBack();
-    //    return redirect()
-    //           ->route('NewTicket')
-    //         //   $e->getMessage()
-    //           ->with('alert.error','لا يمكنك استلام الرساله بسبب   وجود الاميل  مسبقا لمستخدم اخر');
-    //           throw $e;
-    //      }
 
 
-}
     public function addreplytoticket($id)
     {
          //   return  $tickte_ids = Ticket::where('status', 'New')->pluck('id')->toArray();

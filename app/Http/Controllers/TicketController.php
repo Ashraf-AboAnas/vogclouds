@@ -62,21 +62,21 @@ class TicketController extends Controller
     // }
     // return null;
 
-    if(  $tickete=User::whereIn('email',[$request->email])->first()){
-        $aa=  $tickete->email;
-    }
-    else{
-        $aa=  null;
+    // if(  $tickete=User::whereIn('email',[$request->email])->first()){
+    //     $aa=  $tickete->email;
+    // }
+    // else{
+    //     $aa=  null;
 
-    }
-
-
-      if ($aa){
-        return redirect()->route('ticket')->with(['alert.error' => 'اسم المستخدم '.$request->email .' بالفعل مسجل في موقعنا  يمكنك الدخول الي حسابك وطلب تذكره  اهلا وسهلا بك  في موقعنا  ' ]);
+    // }
 
 
-     }
-      elseif($aa ==''){
+    //   if ($aa){
+    //     return redirect()->route('ticket')->with(['alert.error' => 'اسم المستخدم '.$request->email .' بالفعل مسجل في موقعنا  يمكنك الدخول الي حسابك وطلب تذكره  اهلا وسهلا بك  في موقعنا  ' ]);
+
+
+    //  }
+    //   elseif($aa ==''){
 
     $ticket= new Ticket();
         $ticket->name = $request->name;
@@ -118,7 +118,7 @@ class TicketController extends Controller
         return redirect()->route('ticket')->with(['success' => 'تم اضافة تذكره رقم'.$ticket->id .' بنجاج وسيتم  التعامل معك والرد في القريب العاجل ' ]);
 
 
-}
+//}
 
 
 }

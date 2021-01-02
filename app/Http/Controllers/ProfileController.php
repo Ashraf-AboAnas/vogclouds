@@ -28,7 +28,7 @@ class ProfileController extends Controller
                         if ($request->filled('password','password_confirmation')) {
 
                             $request ->merge([
-                                            'password'=>bcrypt($request->post('password'))
+                                            'password'=>Hash::make($request->post('password'))
                                             ]);
 
 
