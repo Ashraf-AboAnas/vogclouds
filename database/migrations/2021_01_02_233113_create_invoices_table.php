@@ -14,15 +14,18 @@ class CreateInvoicesTable extends Migration
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('ticket_id');
             $table->unsignedBigInteger('user_id');
             $table->enum('status',['paid','not_paid'])->default('not_paid');
             $table->float('amount')->default(0);
-
+            $table->text('ticket_code');
+            $table->float('price');
+            $table->boolean('client_ok')->default(0);
+            $table->date('dateline');
+            $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('ticket_id')->references('id')->on('tickets');
-            $table->timestamps();
+            $table->primary(['ticket_id', 'user_id']);
         });
     }
 

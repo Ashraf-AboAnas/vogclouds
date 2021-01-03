@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\price_datelineRequest;
 use App\Models\Invoice;
 use App\Models\Ticket;
+use App\Models\User;
+use App\Notifications\AddNewInvoiceMsg;
+use App\Notifications\AddNewTnvoiceNotf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class MangmentInvoice extends Controller
@@ -21,11 +26,9 @@ class MangmentInvoice extends Controller
         return view('invoices._form_edit', compact('ticket', 'uniquee', 'date'));
     }
 
-    public function updateinvoice(Ticket $ticket, Request $request)
+    public function updateinvoice(Ticket $ticket, price_datelineRequest $request)
     {
-
-//return $request;
-
+          $codeticket=$request->ticket_code;
 
             $ticket->update([
                 'status' => 'close',
@@ -40,8 +43,21 @@ class MangmentInvoice extends Controller
 
                 'ticket_code' => $request->ticket_code,
                 'price' => $request->price,
+                'dateline'=>$request->Dateline
             ]);
 
+            $email1= $ticket->email;
+            Notification::route('mail', $email1)
+            ->notify(new AddNewInvoiceMsg($ticket,$codeticket));
+
+
+            $user=User::where('id',$request->ticket_user)
+                       ->where('role','client')
+                       ->first();
+
+            if($user){
+                      Notification::send($user, new AddNewTnvoiceNotf($ticket));
+                     }
             return redirect()
                 ->route('SuspendedTicket')
                 ->with('success', "تم إنشاء  فاتوره     \"  $request->ticket_code \" : بنجاح   ");

@@ -136,6 +136,19 @@
                                     </div>
                                 </div>
 
+
+                                <div class="col-lg-4">
+                                    <div class="form-inline">
+                                        <label class="control-label" for="Dateline">تاريخ الاستحقاق</label>
+                                        <input class="form-control input-sm  @error('Dateline') is-invalid @enderror " data-val="true"
+                                       id="Dateline" name="Dateline"  value="" type="date">
+
+                                    </div>
+                                    @error('Dateline')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                             </div>
                             <br>
                             <div class="footer_float">
