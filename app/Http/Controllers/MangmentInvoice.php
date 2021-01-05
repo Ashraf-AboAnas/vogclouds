@@ -29,7 +29,7 @@ class MangmentInvoice extends Controller
     public function updateinvoice(Ticket $ticket, price_datelineRequest $request)
     {
           $codeticket=$request->ticket_code;
-
+   //   return     $aaa=$request->Dateline;
             $ticket->update([
                 'status' => 'close',
                 'Recivedby2' => Auth::user()->id,
@@ -40,7 +40,6 @@ class MangmentInvoice extends Controller
             Invoice::create([
                 'ticket_id' => $request->ticket_id,
                 'user_id' => $request->ticket_user,
-
                 'ticket_code' => $request->ticket_code,
                 'price' => $request->price,
                 'dateline'=>$request->Dateline

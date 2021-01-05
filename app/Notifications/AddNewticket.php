@@ -59,7 +59,7 @@ protected $user;
                     ->greeting('اداره الموقع !')  ;
     }
     public function toDatabase($notifiable)
-    {  $url = url('/ticket/New');//.$this->ticket->id
+    {  $url = url('/ticket/New/'.$this->ticket->id);//.$this->ticket->id
         return [
             'title'  =>'تذكره جديدة',
             'body'   =>'  رقم'.$this->ticket->id,

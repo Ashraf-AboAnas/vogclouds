@@ -132,13 +132,13 @@ class TicketController extends Controller
      */
     public function show($id){
         $ticket =$id;
-       $comment = comment::where('ticket_id' , $id)
+       $comments = comment::where('ticket_id' , $id)
                           ->where('isadmin', true)
                         //  ->where('status', 'New')
                           ->get();
 
 
-       return view('websites.viewticket', compact(['comment','ticket']));
+       return view('websites.viewticket', compact(['comments','ticket']));
     }
 
     /**

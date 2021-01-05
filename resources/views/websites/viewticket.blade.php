@@ -315,12 +315,13 @@
                         </form>
                   </div>
                     --}}
+                    @if($comments->count())
+                    <h3> عرض الردود السابقه </h3>
+
+                  @foreach ($comments as $comment)
 
 
-                @foreach ($comment as $comment)
 
-                @if($comment->replaytecket != null)
-                <h3> عرض الردود السابقه </h3>
                  <div class="form-group">
                    <label for="exampleFormControlTextarea1" class="form-label"> since<i style="color: royalblue;font-size:12px"> {{$comment->created_at->diffForHumans()}}</i> <i class="fas fa-user-tie" style="color: royalblue">
                      {{$comment->user->name}} </i>
@@ -330,14 +331,14 @@
                     {{$comment->replaytecket}}
                    </textarea>
                  </div>
-                 @endif
+
                  @if($comment->replaytecket == null)
                  <div class="form-group">
                   <h3>لايوجد ردود حتي هذة اللحظة </h3>
                 </div>
                 @endif
               @endforeach
-
+              @endif
 
               <!-- End Cta Section -->
               <div class="mb-3 mr-3">

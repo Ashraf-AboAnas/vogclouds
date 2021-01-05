@@ -70,7 +70,7 @@ Route::get('logout', 'Auth\LoginController@logout', function () {
 /***************** Ticket In Dshboard ********************** */
 Route::prefix('ticket')->middleware(['is_admin', 'auth'])->group(function () {
 
-    Route::get('/New', [App\Http\Controllers\MangmentTiket::class, 'NewTicket'])->name('NewTicket');
+    Route::get('/New/{id?}', [App\Http\Controllers\MangmentTiket::class, 'NewTicket'])->name('NewTicket');
     Route::get('/Suspended', [App\Http\Controllers\MangmentTiket::class, 'SuspendedTicket'])->name('SuspendedTicket');
     Route::put('/{ticket}', [App\Http\Controllers\MangmentTiket::class, 'tosuspended1'])->name('ticket.suspended');
 
@@ -111,6 +111,12 @@ Route::prefix('user')->middleware(['is_admin', 'auth'])->group(function () {
 });
 
 /************************************************** */
+Route::prefix('invoice')->middleware(['is_admin', 'auth'])->group(function () {
+    Route::get('/notification/{id}', [App\Http\Controllers\NotifactionController::class, 'read'])->name('read.notifation');
+
+
+
+});
 /************************************************** */
 /************************************************** */
 /************************************************** */

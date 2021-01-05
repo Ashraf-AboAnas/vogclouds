@@ -68,44 +68,24 @@
           </div>
        {{-- {{route('createreplay',[$ticket->id])}} --}}
        <div class="mb-3 mr-3">
-         <h3> عرض الردود السابقه </h3>
-         @if(($comment ==null))
+         <h3>  عرض الردود السابقة من الزبون </h3>
 
-          @else
-         @foreach ($comment as $comment)
-
-{{-- /************************
-
-@foreach ($comment as $comment)
-
-<div class="form-group">
-    <label for="exampleFormControlTextarea1" class="form-label"> "since" {{$comment->created_at->diffForHumans()}} </label>
-    <textarea  name="adminreplay"class="form-control  @error('adminreplay') is-invalid @enderror" id="adminreplay" > {{$comment->replaytecket}}</textarea>
-    @error('adminreplay')
-      <p class="text-danger">{{ $message }}</p>
-    @enderror
-</div>
+         @foreach ($comments as $comment)
 
 
+             <label for="exampleFormControlTextarea1" class="form-label"> "since" {{$comment->created_at->diffForHumans()}}  <i class="fas fa-user" style="color: royalblue;font-size:12px">
+                 {{$comment->ticket->name}}</i></label>
+            <textarea  name ="adminreplay" class="form-control"  id="exampleFormControlTextarea1" rows="6" readonly>
 
 
-           @endforeach
-
-/********************* --}}
-             <label for="exampleFormControlTextarea1" class="form-label"> "since" {{$comment->created_at->diffForHumans()}} </label>
-            <textarea  name ="adminreplay" class="form-control" @error('adminreplay') is-invalid @enderror  id="exampleFormControlTextarea1" rows="6" readonly>
-
-            @if($comment->replaytecket)
             {{$comment->replaytecket}}
 
-             @else
-             <h3 style="color: red"> No Comment in THis Moments<h3>
-             @endif
+
            </textarea>
 
 
            @endforeach
-           @endif
+
 
         </div>
     <div class="mb-3 mr-3">

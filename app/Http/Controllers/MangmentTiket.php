@@ -28,17 +28,33 @@ use Throwable;
 
 class MangmentTiket extends Controller
 {
-    public function NewTicket()
+    public function NewTicket(Request $request)
     {
         if(Auth::user()->role =='admin')
 
-        $ticket = Ticket::whereIn('status', ['New'])->orderBy('id', 'DESC')->paginate(15);
+          if($request->id){
+            $ticket = Ticket::where('id',$request->id)
+                   ->orderBy('id', 'DESC')->paginate(15);
+
+          }else{
+            $ticket = Ticket::where('status', 'New')
+            ->orderBy('id', 'DESC')->paginate(15);
+         }
+
 
 
      elseif(Auth::user()->role =='client')
     //return view('404');
         $ticket = Ticket::where('user_id', Auth::id())->orderBy('id', 'DESC')->paginate(15);
+        // if($request->id){
+        //     $ticket = Ticket::where('id',$request->id)
 
+        //            ->orderBy('id', 'DESC')->paginate(15);
+
+        //   }else{
+        //     $ticket = Ticket::where('status', 'New')
+        //     ->orderBy('id', 'DESC')->paginate(15);
+        //  }
       return view('ticket.index', compact('ticket'));
     }
     public function SuspendedTicket()
@@ -116,23 +132,17 @@ class MangmentTiket extends Controller
         $ticket = Ticket::find($id);
        //  return $ticket;
         if($ticket->status ==='New'||$ticket->status ==='Suspended'){
-       $comment = comment::where('ticket_id' , $id)
+       $comments = comment::with('ticket')->where('ticket_id' , $id)
                             ->where('isadmin', false)
                             ->get();
                            // $comment=$ticket->comments;
-        return view('ticket.addReplay', compact(['ticket','comment']));
+        return view('ticket.addReplay', compact(['ticket','comments']));
         }
         return view('404');
     }
 
     public function createreplay(TicketRequestReply $request)
     {
-//return $request;
-// $request->validate([
-
-//     'adminreplay' => 'required|string|max:255|min:8'
-
-//     ]);
         $teckit_id = $request->post('aaa');
         $comment = comment::create([
             'replaytecket' => $request->post('adminreplay'),
@@ -156,8 +166,8 @@ class MangmentTiket extends Controller
 
     /***************************** */
     public function search($id){
-        $ticket = $id;
-       // $comment = comment::where('ticket_id' , $id)->get();
+       // $ticket = $id;
+        $ticket = Ticket::where('id' ,$id)->first();
 
        dd($ticket);
       //  return view('websites.viewticket', compact('comment'));

@@ -24,7 +24,7 @@ class price_datelineRequest extends FormRequest
     public function rules()
     {
         return [
-            'dateline' => 'required',
+            'dateline' => 'nullable',
             'price' => 'required',
         ];
     }
@@ -34,8 +34,6 @@ class price_datelineRequest extends FormRequest
 
     'dateline.required'=>'يجب اخال تاريخ استحقاق الفاتورة ',
      'price.required'=>'يجب ادخال السعر المتفق علية للفاتوره',
-
-
 
     ];
 }
